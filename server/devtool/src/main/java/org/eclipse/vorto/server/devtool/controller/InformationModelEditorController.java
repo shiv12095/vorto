@@ -2,13 +2,20 @@ package org.eclipse.vorto.server.devtool.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.vorto.editor.infomodel.web.resource.InformationModelResourceSetProvider;
+import org.eclipse.vorto.http.model.ModelId;
+import org.eclipse.vorto.http.model.ModelResource;
 import org.eclipse.vorto.server.devtool.service.IInformationModelEditorService;
+import org.eclipse.xtext.web.server.model.IWebResourceSetProvider;
 import org.eclipse.xtext.web.servlet.HttpServiceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +39,8 @@ public class InformationModelEditorController {
 	IInformationModelEditorService iInformationModelEditorService;
 
 	@ApiOperation(value = "Adds the function block to the resource set")
-	@RequestMapping(value = "/add/functionblock/{resourceId}/{namespace}/{name}/{version:.+}", method = RequestMethod.GET)
-	public void addFunctionBlock(@ApiParam(value = "ResourceId", required = true) final @PathVariable String resourceId,
+	@RequestMapping(value = "/link/functionblock/{resourceId}/{namespace}/{name}/{version:.+}", method = RequestMethod.GET)
+	public void linkFunctionBlock(@ApiParam(value = "ResourceId", required = true) final @PathVariable String resourceId,
 			@ApiParam(value = "Namespace", required = true) final @PathVariable String namespace,
 			@ApiParam(value = "Name", required = true) final @PathVariable String name,
 			@ApiParam(value = "Version", required = true) final @PathVariable String version,
@@ -45,9 +52,15 @@ public class InformationModelEditorController {
 		Objects.requireNonNull(name, "name must not be null");
 		Objects.requireNonNull(version, "version must not be null");
 
+		ModelId modelId = new ModelId(name, namespace, version);
+		
 		HttpServiceContext httpServiceContext = new HttpServiceContext(request);
-		String content = iInformationModelEditorService.addFunctionBlock(resourceId, namespace, name, version,
-				httpServiceContext);
+		InformationModelResourceSetProvider informationModelResourceSetProvider = (InformationModelResourceSetProvider) injector.getInstance(IWebResourceSetProvider.class);
+		ResourceSet resourceSet = informationModelResourceSetProvider.getResourceSetFromSession(httpServiceContext);
+		HashSet<String> referencedResourceSet = (HashSet<String>) informationModelResourceSetProvider
+				.getReferencedResourcesFromSession(httpServiceContext);
+		
+		String content = iInformationModelEditorService.linkFunctionBlockToInformationModel(resourceId, modelId, resourceSet, referencedResourceSet);
 		try {
 			IOUtils.copy(new ByteArrayInputStream(content.getBytes()), response.getOutputStream());
 			response.flushBuffer();
@@ -56,9 +69,9 @@ public class InformationModelEditorController {
 		}
 	}
 
-	@ApiOperation(value = "Adds the function block to the resource set")
+	@ApiOperation(value = "")
 	@RequestMapping(value = "/search={expression:.*}", method = RequestMethod.GET)
-	public String searchByExpression(
+	public List<ModelResource> searchByExpression(
 			@ApiParam(value = "Search expression", required = true) @PathVariable String expression) {
 
 		Objects.requireNonNull(expression, "namespace must not be null");

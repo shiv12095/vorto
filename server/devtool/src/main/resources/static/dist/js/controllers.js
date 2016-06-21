@@ -9,7 +9,7 @@ app.controller('InfomodelEditorController', function($rootScope, $scope, $http, 
 	$scope.validationError = false;
 	$scope.selectedModel = null;
 	$scope.selectedModelId = null;
-	$scope.enableAddFunctionBlockButton = true;
+	$scope.showAddFunctionBlockButton = true;
 	
 	$scope.models = [];
   	$scope.queryFilter = "";	
@@ -70,14 +70,14 @@ app.controller('InfomodelEditorController', function($rootScope, $scope, $http, 
 	$scope.importFunctionBlock = function() {
 		if($scope.isFunctionBlockSelected()){
 			if($scope.isValidInfomodel()){
-				$scope.enableAddFunctionBlockButton = false
-		  		$http.get('./editor/infomodel/add/functionblock/' + editor.xtextServices.validationService._encodedResourceId + '/' + $scope.selectedModelId['namespace'] + '/' + $scope.selectedModelId['name'] + '/' + $scope.selectedModelId['version'] ).success(
+				$scope.showAddFunctionBlockButton = false
+		  		$http.get('./editor/infomodel/link/functionblock/' + editor.xtextServices.validationService._encodedResourceId + '/' + $scope.selectedModelId['namespace'] + '/' + $scope.selectedModelId['name'] + '/' + $scope.selectedModelId['version'] ).success(
 		  		      function(data, status, headers, config) {
 		  				editor.setValue(data);
 		  		      }).error(function(data, status, headers, config) {
 		  		    	  window.alert('Failed')
 		  		      });
-				$scope.enableAddFunctionBlockButton = true;
+				$scope.showAddFunctionBlockButton = true;
 			}
 			else{
 				window.alert('Your information model contains errors. Please correct and try again.');			
