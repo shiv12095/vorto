@@ -24,9 +24,9 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.eclipse.vorto.http.model.ModelId;
 import org.eclipse.vorto.repository.model.GeneratedOutput;
 import org.eclipse.vorto.repository.model.GeneratorServiceInfo;
-import org.eclipse.vorto.repository.model.ModelId;
 import org.eclipse.vorto.repository.model.ServiceClassifier;
 import org.eclipse.vorto.repository.service.IGeneratorService;
 import org.slf4j.Logger;

@@ -21,11 +21,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.vorto.http.model.ModelId;
+import org.eclipse.vorto.http.model.ModelType;
 import org.eclipse.vorto.repository.model.GeneratedOutput;
 import org.eclipse.vorto.repository.model.Generator;
 import org.eclipse.vorto.repository.model.GeneratorServiceInfo;
-import org.eclipse.vorto.repository.model.ModelId;
-import org.eclipse.vorto.repository.model.ModelType;
 import org.eclipse.vorto.repository.model.ServiceClassifier;
 import org.eclipse.vorto.repository.service.GenerationException;
 import org.eclipse.vorto.repository.service.GeneratorAlreadyExistsException;
@@ -45,29 +45,28 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class GenerationDelegateProxyService implements IGeneratorService {
-	
+
 	@Autowired
 	private GeneratorLookupRepository registeredGeneratorsRepository;
-	
+
 	@Autowired
 	private IModelRepository modelRepositoryService;
-	
-	
+
 	private RestTemplate restTemplate;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenerationDelegateProxyService.class);
-	
+
 	public GenerationDelegateProxyService() {
 		this.restTemplate = new RestTemplate();
 	}
-	
+
 	@Override
 	public void registerGenerator(String serviceKey, String baseUrl, ServiceClassifier classifier) {
 		if (!registeredGeneratorsRepository.findByGeneratorKey(serviceKey).isEmpty()) {
 			throw new GeneratorAlreadyExistsException(serviceKey);
 		} else {
-			LOGGER.info("Registered generator {} under base url {} and classifier {}",serviceKey,baseUrl,classifier);
-				
+			LOGGER.info("Registered generator {} under base url {} and classifier {}", serviceKey, baseUrl, classifier);
+
 			this.registeredGeneratorsRepository.save(new Generator(serviceKey, baseUrl, classifier.name()));
 		}
 	}
@@ -92,9 +91,10 @@ public class GenerationDelegateProxyService implements IGeneratorService {
 	@Override
 	public GeneratorServiceInfo getGeneratorServiceInfo(String serviceKey) {
 		Generator generatorEntity = getGenerator(serviceKey);
-		GeneratorServiceInfo generatorInfo = restTemplate.getForObject(generatorEntity.getGenerationInfoUrl(), GeneratorServiceInfo.class);
+		GeneratorServiceInfo generatorInfo = restTemplate.getForObject(generatorEntity.getGenerationInfoUrl(),
+				GeneratorServiceInfo.class);
 		generatorInfo.setGeneratorInfoUrl(generatorEntity.getGenerationInfoUrl());
-		generatorInfo.performRating(generatorEntity.getInvocationCount());		
+		generatorInfo.performRating(generatorEntity.getInvocationCount());
 		return generatorInfo;
 	}
 
@@ -106,20 +106,22 @@ public class GenerationDelegateProxyService implements IGeneratorService {
 		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
 		Generator generatorEntity = getGenerator(serviceKey);
 		if (generatorEntity == null) {
-			throw new GenerationException("Generator with key "+serviceKey+" is not a registered generator");
+			throw new GenerationException("Generator with key " + serviceKey + " is not a registered generator");
 		}
 		generatorEntity.increaseInvocationCount();
 		this.registeredGeneratorsRepository.save(generatorEntity);
-		
-		ResponseEntity<byte[]> entity = restTemplate.getForEntity(generatorEntity.getGenerationEndpointUrl(), byte[].class, modelId.getNamespace(), modelId.getName(), modelId.getVersion());
-		return new GeneratedOutput(entity.getBody(), extractFileNameFromHeader(entity), entity.getHeaders().getContentLength());
+
+		ResponseEntity<byte[]> entity = restTemplate.getForEntity(generatorEntity.getGenerationEndpointUrl(),
+				byte[].class, modelId.getNamespace(), modelId.getName(), modelId.getVersion());
+		return new GeneratedOutput(entity.getBody(), extractFileNameFromHeader(entity),
+				entity.getHeaders().getContentLength());
 	}
-	
+
 	private String extractFileNameFromHeader(ResponseEntity<byte[]> entity) {
 		List<String> values = entity.getHeaders().get("content-disposition");
 		if (values.size() > 0) {
 			int indexOfFileNameStart = values.get(0).indexOf("=");
-			return values.get(0).substring(indexOfFileNameStart+1);
+			return values.get(0).substring(indexOfFileNameStart + 1);
 		}
 		return "generated.output";
 	}
@@ -137,10 +139,11 @@ public class GenerationDelegateProxyService implements IGeneratorService {
 	public Collection<GeneratorServiceInfo> getMostlyUsedGenerators(int top) {
 		List<Generator> topResult = new ArrayList<Generator>();
 
-		for (Generator entity : this.registeredGeneratorsRepository.findByClassifier(ServiceClassifier.platform.name())) {
+		for (Generator entity : this.registeredGeneratorsRepository
+				.findByClassifier(ServiceClassifier.platform.name())) {
 			topResult.add(entity);
 		}
-		
+
 		topResult.sort(new Comparator<Generator>() {
 
 			@Override
@@ -154,7 +157,7 @@ public class GenerationDelegateProxyService implements IGeneratorService {
 				}
 			}
 		});
-		
+
 		List<GeneratorServiceInfo> result = new ArrayList<>(top);
 		int counter = 0;
 		for (Generator entity : topResult) {
@@ -162,13 +165,13 @@ public class GenerationDelegateProxyService implements IGeneratorService {
 				try {
 					result.add(getGeneratorServiceInfo(entity.getKey()));
 					counter++;
-				} catch(Throwable t) {
-					LOGGER.warn("Generator " + entity.getKey()+" appears to be offline or not deployed. Skipping...");
+				} catch (Throwable t) {
+					LOGGER.warn("Generator " + entity.getKey() + " appears to be offline or not deployed. Skipping...");
 				}
-				
+
 			}
 		}
-		
+
 		return result;
 	}
 
