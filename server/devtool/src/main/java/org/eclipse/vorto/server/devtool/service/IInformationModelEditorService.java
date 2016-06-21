@@ -1,8 +1,6 @@
 package org.eclipse.vorto.server.devtool.service;
 
-
 import org.eclipse.xtext.web.servlet.HttpServiceContext;
-
 
 /**
  * 
@@ -10,9 +8,22 @@ import org.eclipse.xtext.web.servlet.HttpServiceContext;
  *
  */
 public interface IInformationModelEditorService {
-		
-	void addFunctionBlockToResourceSet(String name, String namespace, String version,
+
+	/**
+	 * 
+	 * Adds the @FunctionBlock provided by namespace, name and version to
+	 * the @InformationModel referenced by the resourceId. Returns the generated
+	 * file
+	 * 
+	 * @param resourceId
+	 * @param namespace
+	 * @param name
+	 * @param version
+	 * @param httpServiceContext
+	 * @return
+	 */
+	String addFunctionBlock(String resourceId, String namespace, String name, String version,
 			HttpServiceContext httpServiceContext);
-	
+
 	String searchFunctionBlockByExpression(String expression);
 }

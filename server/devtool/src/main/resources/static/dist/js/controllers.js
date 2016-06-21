@@ -71,10 +71,9 @@ app.controller('InfomodelEditorController', function($rootScope, $scope, $http, 
 		if($scope.isFunctionBlockSelected()){
 			if($scope.isValidInfomodel()){
 				$scope.enableAddFunctionBlockButton = false
-		  		$http.get('./editor/infomodel/add/functionblock/' +  $scope.selectedModelId['namespace'] + '/' + $scope.selectedModelId['name'] + '/' + $scope.selectedModelId['version'] ).success(
+		  		$http.get('./editor/infomodel/add/functionblock/' + editor.xtextServices.validationService._encodedResourceId + '/' + $scope.selectedModelId['namespace'] + '/' + $scope.selectedModelId['name'] + '/' + $scope.selectedModelId['version'] ).success(
 		  		      function(data, status, headers, config) {
-		  		    	  window.alert('Added successfully')
-		  		    	  $scope.updateInfoModel();
+		  				editor.setValue(data);
 		  		      }).error(function(data, status, headers, config) {
 		  		    	  window.alert('Failed')
 		  		      });
@@ -87,14 +86,7 @@ app.controller('InfomodelEditorController', function($rootScope, $scope, $http, 
 			window.alert('Please select a function block');			
 		}
 	}
-	
-	$scope.updateInfoModel = function() {
-		var originalText = editor.getValue();
-		var pos = originalText.indexOf('infomodel');
-		var newText = originalText.substr(0, pos-1) + "using " + $scope.selectedModelId['namespace'] + '.' + $scope.selectedModelId['name'] +  " ; " + $scope.selectedModelId['version'] + "\n\n" + originalText.substr(pos);
-		editor.setValue(newText);
-	}
-			
+				
   	$scope.search();
 
     $scope.displayedModels = [].concat($scope.models);
