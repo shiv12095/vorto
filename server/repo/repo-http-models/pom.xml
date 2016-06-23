@@ -10,56 +10,6 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-		<!-- Vorto DSL Dependencies -->
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.editor</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.editor.datatype</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.editor.functionblock</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.editor.infomodel</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.vorto</groupId>
-			<artifactId>org.eclipse.vorto.editor.mapping</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>asm</artifactId>
-					<groupId>org.ow2.asm</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>

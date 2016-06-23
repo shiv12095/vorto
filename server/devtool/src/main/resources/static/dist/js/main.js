@@ -1,9 +1,8 @@
 require.config({
 	paths: {
 		"angular": "/webjars/angularjs/1.3.13/angular.min",
-		"angular-route" : "/webjars/angular-route/1.3.14/angular-route.min",
+		"angular-route" : "/webjars/angular-route/1.3.13/angular-route.min",
 		"smart-table" : "/webjars/angular-smart-table/2.1.6/dist/smart-table.min",
-		"toastr" : "/webjars/angular-toastr/1.7.0/dist/angular-toastr.min",
 		"jquery" : "/webjars/jquery/2.1.1/jquery.min",
 		"mode-pwl" : "xtext-resources/generated/mode-infomodel",
 		"ace/ext/language_tools" : "/webjars/ace/1.2.0/src/ext-language_tools",
@@ -21,9 +20,6 @@ require.config({
 			deps: ["angular"]
 		},
 		'smart-table' : {
-			deps: ["angular"]
-		},
-		'toastr' : {
 			deps: ["angular"]
 		}
 	}

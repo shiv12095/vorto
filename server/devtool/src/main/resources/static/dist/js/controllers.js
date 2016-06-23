@@ -1,5 +1,5 @@
 define(["angular"],function(angular) {
-var app = angular.module('apps.controller', ['smart-table','toastr']);
+var app = angular.module('apps.controller', ['smart-table']);
 
 app.controller('InfomodelEditorController', function($rootScope, $scope, $http, $location) {
 	
