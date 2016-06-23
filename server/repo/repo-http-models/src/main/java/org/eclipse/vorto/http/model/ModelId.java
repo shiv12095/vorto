@@ -12,7 +12,8 @@
  * Contributors:
  * Bosch Software Innovations GmbH - Please refer to git log
  *******************************************************************************/
-package org.eclipse.vorto.repository.model;
+
+package org.eclipse.vorto.http.model;
 
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -175,3 +176,4 @@ public class ModelId {
 		return namespace + "." + name + ":" +version;
 	}	
 }
+
