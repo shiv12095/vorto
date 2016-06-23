@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.vorto.core.api.model.model.ModelType;
 import org.eclipse.vorto.http.model.ModelId;
 import org.eclipse.vorto.http.model.ModelResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +24,8 @@ import com.google.gson.reflect.TypeToken;
 @Component
 public class InformationModelEditorRestClient {
 
-	private String basePath = "http://vorto.eclipse.org//rest/";
+	@Value("${vorto.repository.base.path}")
+	private String basePath;
 
 	public ModelResource getModel(ModelId modelId){
 		String json = getModelFile(modelId);
