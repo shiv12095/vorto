@@ -12,7 +12,7 @@
  *  Contributors:
  *  Bosch Software Innovations GmbH - Please refer to git log
  *******************************************************************************/
-package org.eclipse.vorto.editor.functionblock;
+package org.eclipse.vorto.editor.functionblock.tests;
 
 import org.eclipse.vorto.editor.functionblock.tests.formatter.FunctionblockModelFormatterTest;
 import org.eclipse.vorto.editor.functionblock.tests.validator.FBEntityEnumCrossReferenceTest;

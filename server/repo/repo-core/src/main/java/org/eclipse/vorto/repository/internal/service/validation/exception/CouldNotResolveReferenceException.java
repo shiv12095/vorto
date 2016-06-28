@@ -3,8 +3,8 @@ package org.eclipse.vorto.repository.internal.service.validation.exception;
 import java.util.List;
 import java.util.Objects;
 
-import org.eclipse.vorto.repository.model.ModelId;
-import org.eclipse.vorto.repository.model.ModelResource;
+import org.eclipse.vorto.http.model.ModelId;
+import org.eclipse.vorto.http.model.ModelResource;
 import org.eclipse.vorto.repository.validation.ValidationException;
 
 public class CouldNotResolveReferenceException extends ValidationException {
