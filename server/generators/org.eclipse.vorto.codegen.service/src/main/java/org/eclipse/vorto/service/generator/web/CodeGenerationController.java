@@ -85,12 +85,6 @@ public class CodeGenerationController {
 	
 	@Value("${vorto.service.classifier}")
 	private ServiceClassifier classifier;
-	
-	@Value("${server.contextPath}")
-	private String serverContextPath;
-	
-	@Value("${server.port}")
-	private int serverPort;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenerationController.class);
 
@@ -102,6 +96,9 @@ public class CodeGenerationController {
 	
 	@Autowired
 	private ServerGeneratorLookup lookupService;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@RequestMapping(value = "/{namespace}/{name}/{version:.+}", method = RequestMethod.GET)
 	public ResponseEntity<InputStreamResource> generate(@PathVariable String namespace,
@@ -151,7 +148,6 @@ public class CodeGenerationController {
 
 	private byte[] downloadMappingModel(InformationModel model, String targetPlatform) {
 		try {
-			RestTemplate restTemplate = new RestTemplate();
 			return restTemplate.getForObject(basePath + "/model/mapping/zip/{namespace}/{name}/{version}/{targetPlatform}",
 					byte[].class, model.getNamespace(), model.getName(),model.getVersion(),targetPlatform);
 		} catch (RestClientException e) {
@@ -162,7 +158,6 @@ public class CodeGenerationController {
 
 	private byte[] downloadModelWithReferences(String namespace, String name, String version) {
 		try {
-			RestTemplate restTemplate = new RestTemplate();
 			return restTemplate.getForObject(basePath + "/model/file/{namespace}/{name}/{version}?output=DSL&includeDependencies=true",
 					byte[].class, namespace, name, version);
 		} catch (RestClientException e) {
