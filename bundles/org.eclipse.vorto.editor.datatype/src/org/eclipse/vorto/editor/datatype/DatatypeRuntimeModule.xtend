@@ -27,6 +27,7 @@ import org.eclipse.xtext.scoping.IScopeProvider
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
+
 class DatatypeRuntimeModule extends AbstractDatatypeRuntimeModule {
 	override Class<? extends IScopeProvider> bindIScopeProvider() {
 		return DatatypeScopeProvider
