@@ -22,6 +22,7 @@ import org.eclipse.vorto.editor.datatype.scoping.DatatypeScopeProvider
 import org.eclipse.xtext.conversion.IValueConverterService
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.scoping.IScopeProvider
+import org.eclipse.vorto.editor.datatype.formatting.DatatypeFormatter
 
 /** 
  * Use this class to register components to be used at runtime / without the
@@ -40,7 +41,7 @@ class DatatypeRuntimeModule extends AbstractDatatypeRuntimeModule {
 	override Class<? extends IValueConverterService> bindIValueConverterService() {
 		return DatatypeValueConverter
 	}
-	
+
 	override bindIFormatter() {
 		DatatypeFormatter
 	}

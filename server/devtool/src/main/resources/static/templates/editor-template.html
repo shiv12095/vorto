@@ -30,11 +30,11 @@
 			<div id="tabbed-editor-container">
 				<div role="tabpanel">
 					<ul class="nav nav-tabs editor-ul" role="tablist">
-				    	<li role="presentation" ng-repeat="tab in tabs" ng-click="selectTab($index)" ng-class="{'active':selectedTabIndex == $index}">
+				    	<li role="presentation" ng-repeat="tab in tabs" ng-class="{'active':selectedTabIndex == $index}">
 				        	<a data-target="#tab" aria-controls="home" role="tab" data-toggle="tab">
-				        		<i class="fa fa-check-circle" aria-hidden="true" ng-show="isValidEditorTab($index)" style="color:green;"></i>
-				        		<i class="fa fa-exclamation-circle" aria-hidden="true" ng-hide="isValidEditorTab($index)" style="color:red;"></i>
-				        		{{tab.name}} 
+				        		<i class="fa fa-check-circle" aria-hidden="true" ng-show={{tab.status === true}} style="color:green;"></i>
+				        		<i class="fa fa-exclamation-circle" aria-hidden="true" ng-show={{tab.status === false}} style="color:red;"></i>
+				        		{{tab.name}} {{tab.status}}
 				        		<span ng-click="openDeleteEditorModal($index)" class="glyphicon glyphicon-remove"></span>
 				        	</a>
 						</li>
