@@ -1,8 +1,9 @@
 define([
   '../init/AppDirective',
 
-  '../project/UniqueProjectNameDirective'
+  '../project/UniqueProjectNameDirective',
 
+  '../editor/JstreeLeafDirective'
 ], function () {
 
 });

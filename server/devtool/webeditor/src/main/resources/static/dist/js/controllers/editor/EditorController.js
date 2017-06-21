@@ -4,7 +4,7 @@ define(["../init/AppController"], function(controllers) {
   EditorController.$inject = [
     "$q", "$rootScope", "$scope", "$location", "$window", "$routeParams", "$compile",
     "$uibModal", "toastr", "ShareDataService", "ProjectDataService",
-    "EditorDataService", "PublishDataService", "ToastrService"
+    "EditorDataService", "PublishDataService", "ToastrService",
   ]
 
   function EditorController($q, $rootScope, $scope, $location, $window, $routeParams, $compile, $uibModal, toastr, ShareDataService, ProjectDataService, EditorDataService, PublishDataService, ToastrService) {
@@ -279,6 +279,11 @@ define(["../init/AppController"], function(controllers) {
         }
         $scope.openResourceTree(resources);
       });
+    }
+
+    $scope.temp = function() {
+      var element = angular.element(document).find('.jstree-container-ul');
+      $compile(element.contents())($scope);
     }
 
     $scope.getResourceObject = function(data) {

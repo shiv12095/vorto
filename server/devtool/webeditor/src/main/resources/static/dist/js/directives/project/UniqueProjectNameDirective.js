@@ -1,9 +1,9 @@
 define(["../init/AppDirective"], function(directives) {
   directives.directive("ngUniqueProjectName", UniqueProjectNameDirective);
 
-  UniqueProjectNameDirective.$inject = ["$http", "$scope"]
+  UniqueProjectNameDirective.$inject = ["$http"]
 
-  function UniqueProjectNameDirective($http, $scope){
+  function UniqueProjectNameDirective($http){
     var directive = {
       require: 'ngModel',
       link: link
